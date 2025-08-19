@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "2025:2025" # SMTP port
+      - "4025:4025" # Web interface port
+    restart: unless-stopped
