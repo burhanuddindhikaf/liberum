@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReplyResource;
-use App\Models\Replyapi as Reply;
+use App\Models\ReplyApi as Reply;
 use App\Models\ReplyAble;
 use Illuminate\Http\Request;
 
