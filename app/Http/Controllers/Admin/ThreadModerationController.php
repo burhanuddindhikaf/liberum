@@ -66,6 +66,7 @@ class ThreadModerationController extends Controller
         $thread->update([
             'status' => 'rejected',
             'approved_by' => auth()->id(),
+            'rejection_reason' => request('rejection_reason'),
         ]);
 
         return redirect()->back()->with('success', 'Thread berhasil ditolak.');

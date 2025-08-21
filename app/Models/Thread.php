@@ -41,6 +41,7 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
         'status',
         'approved_at',
         'approved_by',
+        'rejection_reason',
     ];
 
     protected $with = [

@@ -46,7 +46,7 @@
 
                             <form action="{{ route('admin.threads.reject', $thread) }}" method="POST" class="inline">
                                 @csrf
-                                <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menolak thread ini?')"
+                                <button type="button" onclick="openRejectModal('{{ $thread->id }}')"
                                         class="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700">
                                     ✗ Tolak Thread
                                 </button>
@@ -57,7 +57,7 @@
                             @if($thread->isApproved())
                                 <form action="{{ route('admin.threads.reject', $thread) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin mengubah status menjadi ditolak?')"
+                                    <button type="button" onclick="openRejectModal('{{ $thread->id }}')"
                                             class="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700">
                                         ✗ Ubah ke Ditolak
                                     </button>
@@ -122,9 +122,68 @@
                             <span class="w-2 h-2 bg-red-500 rounded-full"></span>
                             <span>Thread ini ditolak dan tidak dapat dilihat oleh public.</span>
                         </div>
+                        @if($thread->rejection_reason)
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mt-3">
+                                <h4 class="text-sm font-semibold text-red-800 mb-2">Alasan Penolakan:</h4>
+                                <p class="text-sm text-red-700">{{ $thread->rejection_reason }}</p>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>
         </div>
     </section>
+
+    {{-- Modal untuk Penolakan --}}
+    <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Alasan Penolakan Thread</h3>
+                <form id="rejectForm" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="rejection_reason" class="block text-sm font-medium text-gray-700 mb-2">
+                            Berikan alasan penolakan:
+                        </label>
+                        <textarea id="rejection_reason" name="rejection_reason" rows="4"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                placeholder="Masukkan alasan mengapa thread ini ditolak..."
+                                required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="closeRejectModal()"
+                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                            Batal
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                            Tolak Thread
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openRejectModal(threadId) {
+            const modal = document.getElementById('rejectModal');
+            const form = document.getElementById('rejectForm');
+            form.action = `/admin/threads/${threadId}/reject`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeRejectModal() {
+            const modal = document.getElementById('rejectModal');
+            modal.classList.add('hidden');
+            document.getElementById('rejection_reason').value = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('rejectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRejectModal();
+            }
+        });
+    </script>
 </x-admin-layout>

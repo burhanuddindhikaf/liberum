@@ -40,6 +40,13 @@
                                 <div class="text-gray-700 mb-4">
                                     {{ Str::limit(strip_tags($thread->body), 200) }}
                                 </div>
+
+                                @if($thread->rejection_reason)
+                                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                                        <h4 class="text-sm font-semibold text-red-800 mb-1">Alasan Penolakan:</h4>
+                                        <p class="text-sm text-red-700">{{ $thread->rejection_reason }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
