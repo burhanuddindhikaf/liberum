@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Thread;
 use App\Http\Controllers\Controller;
+use App\Notifications\ThreadApprovedNotification;
+use App\Notifications\ThreadRejectedNotification;
 use Illuminate\Http\Request;
 
 class ThreadModerationController extends Controller
@@ -58,6 +60,9 @@ class ThreadModerationController extends Controller
             'approved_by' => auth()->id(),
         ]);
 
+        // Kirim notifikasi ke penulis thread
+        $thread->author()->notify(new ThreadApprovedNotification($thread));
+
         return redirect()->back()->with('success', 'Thread berhasil disetujui.');
     }
 
@@ -68,6 +73,9 @@ class ThreadModerationController extends Controller
             'approved_by' => auth()->id(),
             'rejection_reason' => request('rejection_reason'),
         ]);
+
+        // Kirim notifikasi ke penulis thread
+        $thread->author()->notify(new ThreadRejectedNotification($thread));
 
         return redirect()->back()->with('success', 'Thread berhasil ditolak.');
     }

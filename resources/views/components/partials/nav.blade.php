@@ -15,14 +15,28 @@
 
             {{-- Search Topic --}}
             <form class="flex w-8/12 ml-5" id="searchForm" action="{{ route('search') }}" action="POST">
-                <div class="flex items-center flex-grow ">             
-                    {{-- Route/Http : route('search', 1) --}}             
+                <div class="flex items-center flex-grow ">
+                    {{-- Route/Http : route('search', 1) --}}
                     <button id="searchButton" class="p-2 text-white bg-yellow-400 border rounded-l focus:outline-none hover:bg-yellow-500">
                         <x-heroicon-o-search class="w-6 h-6" />
                     </button>
                     <input type="search" name="search" id="" class="w-full border-none rounded-r shadow-inner bg-yellow-50 focus:ring-yellow-200" placeholder="Cari Topik">
                 </div>
          </form>
+
+            <!-- Notification Button -->
+            @auth
+            <div class="relative ml-4">
+                <a href="/dashboard/notifications" class="relative flex items-center p-2 text-gray-700 bg-white border rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition">
+                    <x-heroicon-o-bell class="w-5 h-5" />
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                    <span class="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full">
+                        {{ Auth::user()->unreadNotifications->count() > 9 ? '9+' : Auth::user()->unreadNotifications->count() }}
+                    </span>
+                    @endif
+                </a>
+            </div>
+            @endauth
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
 
@@ -110,6 +124,20 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+
+            @auth
+            <!-- Notifications for Mobile -->
+            <x-jet-responsive-nav-link href="/dashboard/notifications" :active="false">
+                <div class="flex items-center justify-between">
+                    <span>{{ __('Notifikasi') }}</span>
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                    <span class="flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                        {{ Auth::user()->unreadNotifications->count() > 9 ? '9+' : Auth::user()->unreadNotifications->count() }}
+                    </span>
+                    @endif
+                </div>
+            </x-jet-responsive-nav-link>
+            @endauth
         </div>
 
         @auth

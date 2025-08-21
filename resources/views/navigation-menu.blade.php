@@ -72,6 +72,99 @@
                 </div>
                 @endif
 
+                <!-- Notifications Dropdown -->
+                @auth
+                <div class="relative ml-3">
+                    <x-jet-dropdown align="right" width="80">
+                        <x-slot name="trigger">
+                            <button class="relative flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-3.5-3.5a7 7 0 1 0-9.5 0L3 17h5m4 0v1a3 3 0 1 1-6 0v-1m6 0H9"></path>
+                                </svg>
+                                @if(auth()->user()->unreadNotifications->count() > 0)
+                                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                                        {{ auth()->user()->unreadNotifications->count() }}
+                                    </span>
+                                @endif
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="w-80">
+                                <div class="block px-4 py-2 text-xs text-gray-400 border-b">
+                                    Notifikasi
+                                </div>
+
+                                @forelse(auth()->user()->notifications()->limit(5)->get() as $notification)
+                                    <div class="px-4 py-3 hover:bg-gray-50 {{ $notification->read_at ? 'opacity-60' : 'bg-blue-50' }}">
+                                        @if($notification->data['type'] == 'thread_approved')
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900">
+                                                        Thread Disetujui
+                                                    </p>
+                                                    <p class="text-sm text-gray-500">
+                                                        {{ $notification->data['message'] }}
+                                                    </p>
+                                                    <p class="text-xs text-gray-400 mt-1">
+                                                        {{ $notification->created_at->diffForHumans() }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        @elseif($notification->data['type'] == 'thread_rejected')
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900">
+                                                        Thread Ditolak
+                                                    </p>
+                                                    <p class="text-sm text-gray-500">
+                                                        {{ $notification->data['message'] }}
+                                                    </p>
+                                                    @if(isset($notification->data['rejection_reason']))
+                                                        <p class="text-xs text-red-600 mt-1">
+                                                            Alasan: {{ $notification->data['rejection_reason'] }}
+                                                        </p>
+                                                    @endif
+                                                    <p class="text-xs text-gray-400 mt-1">
+                                                        {{ $notification->created_at->diffForHumans() }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @empty
+                                    <div class="px-4 py-3 text-sm text-gray-500 text-center">
+                                        Tidak ada notifikasi
+                                    </div>
+                                @endforelse
+
+                                @if(auth()->user()->notifications->count() > 0)
+                                    <div class="border-t border-gray-100">
+                                        <a href="{{ route('dashboard.notifications.index') }}" class="block w-full px-4 py-2 text-sm text-center text-blue-600 hover:text-blue-800">
+                                            Lihat semua notifikasi
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
+                @endauth
+
                 <!-- Settings Dropdown -->
                 <div class="relative ml-3">
                     <x-jet-dropdown align="right" width="48">

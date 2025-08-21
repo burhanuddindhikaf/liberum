@@ -14,28 +14,16 @@ class Index extends Component
     use AuthorizesRequests;
     use WithPagination;
 
-    public $notificationId;
+    public function mount()
+    {
+        // Otomatis mark all unread notifications as read ketika halaman dimuat
+        Auth::user()->unreadNotifications->markAsRead();
+    }
 
     public function render()
     {
         return view('livewire.notifications.index', [
-            'notifications' => Auth::user()->unreadNotifications()->paginate(10),
+            'notifications' => Auth::user()->notifications()->latest()->paginate(10),
         ]);
-    }
-
-    public function getNotificationProperty(): DatabaseNotification
-    {
-        return DatabaseNotification::findOrFail($this->notificationId);
-    }
-
-    public function markAsRead(string $notificationId): void
-    {
-        $this->notificationId = $notificationId;
-
-        $this->authorize(NotificationPolicy::MARK_AS_READ, $this->notification);
-
-        $this->notification->markAsRead();
-
-        $this->emit('markedAsRead', Auth::user()->unreadNotifications()->count());
     }
 }

@@ -64,6 +64,11 @@ Route::group(['prefix' => 'replies', 'as' => 'replies.'], function () {
     Route::get('reply/{id}/{type}', [ReplyController::class, 'redirect'])->name('replyAble');
 });
 
+// Notifications routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+});
+
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:sanctum', 'verified']], function () {
     /* Name: Notifications
      * Url: /dashboard/notifications*
@@ -71,6 +76,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['a
      */
     Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('markAllAsRead');
     });
 
     /* Name: Posts

@@ -18,4 +18,11 @@ class NotificationController extends Controller
     {
         return view('dashboard.notifications.index');
     }
+
+    public function markAllAsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return response()->json(['success' => true]);
+    }
 }
