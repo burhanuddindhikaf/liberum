@@ -23,7 +23,14 @@ use App\Http\Controllers\Dashboard\PostController;
 
 require 'admin.php';
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('home');
+    }
+    return redirect()->route('register');
+});
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'threads', 'as' => 'threads.'], function () {
     /* Name: Threads
