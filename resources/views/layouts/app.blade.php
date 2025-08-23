@@ -66,6 +66,9 @@
 
     @livewireScripts
 
+    {{-- Background Music Player --}}
+    <x-background-music />
+
     <!-- Lazy Loading Script -->
     <script src="{{ asset('js/lazy-loading.js') }}"></script>
 </body>

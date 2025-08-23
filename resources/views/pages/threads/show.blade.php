@@ -453,7 +453,4 @@
             }
         });
     </script>
-
-    {{-- Background Music Player --}}
-    <x-background-music />
 </x-guest-layout>

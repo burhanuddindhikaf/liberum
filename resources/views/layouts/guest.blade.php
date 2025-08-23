@@ -7,7 +7,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
     {{-- Header --}}
- 
+
 
     {{-- Navbar --}}
     <x-partials.nav />
@@ -19,6 +19,9 @@
 
     {{-- Footer --}}
     <x-partials.footer />
+
+    {{-- Background Music Player --}}
+    <x-background-music />
 
     {{-- Blade UI Kit --}}
     {{-- @bukScripts(true) --}}

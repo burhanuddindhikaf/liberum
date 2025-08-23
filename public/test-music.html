@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test Background Music</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 p-8">
+        <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
+            <h1 class="text-xl font-bold mb-4">🎵 Test Background Music</h1>
+
+            <!-- Music Player -->
+            <div id="backgroundMusicPlayer" class="fixed bottom-4 right-4 z-50">
+                <div
+                    class="bg-white rounded-full shadow-lg p-3 border border-gray-200"
+                >
+                    <button
+                        id="musicToggle"
+                        class="w-12 h-12 rounded-full bg-blue-500 text-white hover:bg-blue-600 flex items-center justify-center"
+                    >
+                        <svg
+                            id="musicOnIcon"
+                            class="w-6 h-6"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"
+                                clip-rule="evenodd"
+                            ></path>
+                        </svg>
+                        <svg
+                            id="musicOffIcon"
+                            class="w-6 h-6 hidden"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path
+                                d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3zM6 18L18 6"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <audio id="backgroundAudio" loop>
+                    <source src="music/10 - Date.mp3" type="audio/mpeg" />
+                </audio>
+            </div>
+
+            <!-- Test Controls -->
+            <div class="space-y-4">
+                <button
+                    onclick="testMusic()"
+                    class="w-full bg-green-500 text-white py-2 px-4 rounded"
+                >
+                    Test Music
+                </button>
+
+                <button
+                    onclick="checkAudio()"
+                    class="w-full bg-blue-500 text-white py-2 px-4 rounded"
+                >
+                    Check Audio Status
+                </button>
+
+                <div id="status" class="p-4 bg-gray-100 rounded text-sm"></div>
+            </div>
+        </div>
+
+        <script>
+            let audio, musicToggle, musicOnIcon, musicOffIcon;
+            let isPlaying = false;
+
+            document.addEventListener("DOMContentLoaded", function () {
+                audio = document.getElementById("backgroundAudio");
+                musicToggle = document.getElementById("musicToggle");
+                musicOnIcon = document.getElementById("musicOnIcon");
+                musicOffIcon = document.getElementById("musicOffIcon");
+
+                if (!audio) {
+                    updateStatus("❌ Audio element not found");
+                    return;
+                }
+
+                audio.volume = 0.3;
+                audio.loop = true;
+
+                updateStatus("✅ Music player initialized");
+
+                // Toggle functionality
+                musicToggle.addEventListener("click", function () {
+                    if (isPlaying) {
+                        audio.pause();
+                        setMusicOff();
+                    } else {
+                        audio
+                            .play()
+                            .then(() => {
+                                setMusicOn();
+                                updateStatus("✅ Music playing");
+                            })
+                            .catch((error) => {
+                                updateStatus(
+                                    "❌ Play failed: " + error.message
+                                );
+                            });
+                    }
+                });
+
+                // Auto-test after 2 seconds
+                setTimeout(testMusic, 2000);
+            });
+
+            function setMusicOn() {
+                isPlaying = true;
+                musicOnIcon.classList.remove("hidden");
+                musicOffIcon.classList.add("hidden");
+                musicToggle.classList.remove("bg-gray-500");
+                musicToggle.classList.add("bg-blue-500");
+            }
+
+            function setMusicOff() {
+                isPlaying = false;
+                musicOnIcon.classList.add("hidden");
+                musicOffIcon.classList.remove("hidden");
+                musicToggle.classList.remove("bg-blue-500");
+                musicToggle.classList.add("bg-gray-500");
+            }
+
+            function testMusic() {
+                if (!audio) {
+                    updateStatus("❌ No audio element");
+                    return;
+                }
+
+                updateStatus("🔄 Testing music...");
+
+                audio
+                    .play()
+                    .then(() => {
+                        setMusicOn();
+                        updateStatus("✅ Music test successful - Playing!");
+                    })
+                    .catch((error) => {
+                        updateStatus("❌ Music test failed: " + error.message);
+                        setMusicOff();
+                    });
+            }
+
+            function checkAudio() {
+                if (!audio) {
+                    updateStatus("❌ No audio element");
+                    return;
+                }
+
+                const status = {
+                    "Can Play": audio.readyState >= 3,
+                    Duration: audio.duration || "Unknown",
+                    "Current Time": audio.currentTime,
+                    Volume: audio.volume,
+                    Loop: audio.loop,
+                    Paused: audio.paused,
+                    Source: audio.currentSrc || "No source",
+                };
+
+                let statusText = "📊 Audio Status:\n";
+                for (const [key, value] of Object.entries(status)) {
+                    statusText += `• ${key}: ${value}\n`;
+                }
+
+                updateStatus(statusText);
+            }
+
+            function updateStatus(message) {
+                const statusEl = document.getElementById("status");
+                if (statusEl) {
+                    statusEl.innerHTML = message.replace(/\n/g, "<br>");
+                }
+                console.log(message);
+            }
+        </script>
+    </body>
+</html>
