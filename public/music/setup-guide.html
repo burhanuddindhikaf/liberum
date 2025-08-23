@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Background Music Setup - Liberum</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .status {
+                padding: 15px;
+                border-radius: 5px;
+                margin: 10px 0;
+            }
+            .success {
+                background: #d4edda;
+                border: 1px solid #c3e6cb;
+                color: #155724;
+            }
+            .warning {
+                background: #fff3cd;
+                border: 1px solid #ffeaa7;
+                color: #856404;
+            }
+            .info {
+                background: #cce7ff;
+                border: 1px solid #74c0fc;
+                color: #0c5460;
+            }
+            .steps {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 5px;
+                margin: 20px 0;
+            }
+            ul {
+                padding-left: 20px;
+            }
+            li {
+                margin: 8px 0;
+            }
+            .code {
+                background: #f1f3f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎵 Background Music Setup - Liberum</h1>
+
+            <div class="success status">
+                <strong>✅ Background Music Component Berhasil Dibuat!</strong
+                ><br />
+                Background music telah dikonfigurasi untuk halaman thread.
+            </div>
+
+            <h2>📍 Halaman yang Mendukung Background Music:</h2>
+            <ul>
+                <li>
+                    <strong>http://127.0.0.1:8000/threads</strong> - Daftar
+                    semua thread
+                </li>
+                <li>
+                    <strong>http://127.0.0.1:8000/threads/{category}</strong> -
+                    Thread berdasarkan kategori
+                </li>
+                <li>
+                    <strong
+                        >http://127.0.0.1:8000/threads/{category}/{thread}</strong
+                    >
+                    - Detail thread
+                </li>
+            </ul>
+
+            <div class="warning status">
+                <strong>⚠️ File Musik Diperlukan</strong><br />
+                Anda perlu menambahkan file musik dengan nama
+                <span class="code">background-music.mp3</span> ke folder ini.
+            </div>
+
+            <div class="steps">
+                <h3>🎼 Langkah Setup Musik:</h3>
+                <ol>
+                    <li>
+                        Download musik instrumental/ambient dari sumber legal
+                    </li>
+                    <li>
+                        Rename file menjadi
+                        <span class="code">background-music.mp3</span>
+                    </li>
+                    <li>
+                        Letakkan di folder
+                        <span class="code">public/music/</span>
+                    </li>
+                    <li>Refresh halaman thread untuk mendengar musik</li>
+                </ol>
+            </div>
+
+            <div class="info status">
+                <strong>💡 Rekomendasi:</strong><br />
+                • Gunakan musik instrumental yang tenang<br />
+                • Ukuran file maksimal 5MB<br />
+                • Durasi 3-10 menit (akan loop otomatis)<br />
+                • Format MP3 untuk kompatibilitas terbaik
+            </div>
+
+            <h3>🎛️ Fitur Music Player:</h3>
+            <ul>
+                <li>✅ Auto-play (sesuai kebijakan browser)</li>
+                <li>✅ Kontrol play/pause</li>
+                <li>✅ Kontrol volume</li>
+                <li>✅ Tombol close untuk menyembunyikan</li>
+                <li>✅ State tersimpan antar halaman</li>
+                <li>✅ Desain responsive</li>
+            </ul>
+
+            <h3>🎵 Sumber Musik Gratis Legal:</h3>
+            <ul>
+                <li>
+                    <a href="https://freesound.org" target="_blank"
+                        >Freesound.org</a
+                    >
+                    - Creative Commons
+                </li>
+                <li>
+                    <a
+                        href="https://www.youtube.com/audiolibrary"
+                        target="_blank"
+                        >YouTube Audio Library</a
+                    >
+                    - Royalty-free
+                </li>
+                <li>
+                    <a href="https://incompetech.com" target="_blank"
+                        >Incompetech.com</a
+                    >
+                    - Kevin MacLeod
+                </li>
+                <li>
+                    <a href="https://pixabay.com/music" target="_blank"
+                        >Pixabay Music</a
+                    >
+                    - Free music
+                </li>
+            </ul>
+
+            <div class="warning status">
+                <strong>⚖️ Penting:</strong> Pastikan musik yang Anda gunakan
+                memiliki lisensi yang sesuai untuk penggunaan di website.
+            </div>
+        </div>
+    </body>
+</html>

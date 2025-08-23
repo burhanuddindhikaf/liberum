@@ -1,0 +1,45 @@
+SETUP BACKGROUND MUSIC UNTUK LIBERUM
+=====================================
+
+Background music telah dikonfigurasi untuk muncul di halaman berikut:
+✅ /threads - Halaman daftar semua thread
+✅ /threads/{category} - Halaman thread berdasarkan kategori
+✅ /threads/{category}/{thread} - Halaman detail thread individual
+
+LANGKAH SETUP:
+
+1. TAMBAHKAN FILE MUSIK
+   - Letakkan file MP3 Anda di folder ini dengan nama: "background-music.mp3"
+   - File akan dimuat dari: {{ asset('music/background-music.mp3') }}
+
+2. REKOMENDASI FILE MUSIK
+   - Format: MP3 (untuk kompatibilitas terbaik)
+   - Ukuran: Maksimal 5MB untuk loading yang cepat
+   - Durasi: 3-10 menit (akan loop otomatis)
+   - Jenis: Instrumental, ambient, lo-fi, atau musik tenang
+   - Volume: Sudah dinormalisasi agar tidak terlalu keras
+
+3. SUMBER MUSIK GRATIS
+   - Freesound.org (Creative Commons)
+   - YouTube Audio Library (Royalty-free)
+   - Incompetech.com (Kevin MacLeod)
+   - Pixabay Music
+   - Pexels Music
+
+4. FITUR MUSIC PLAYER
+   ✅ Auto-play (dengan respek browser policy)
+   ✅ Play/Pause control
+   ✅ Volume control
+   ✅ Tombol close untuk menyembunyikan player
+   ✅ State tersimpan antar halaman
+   ✅ Responsive design
+
+5. CARA MENGGANTI MUSIK
+   - Ganti file "background-music.mp3" dengan musik pilihan Anda
+   - Atau edit komponen di: resources/views/components/background-music.blade.php
+   - Update path di line: src="{{ asset('music/background-music.mp3') }}"
+
+CATATAN PENTING:
+- Pastikan Anda memiliki lisensi yang tepat untuk musik yang digunakan
+- Musik hanya muncul di halaman thread untuk menghindari gangguan saat menulis
+- User dapat menutup music player jika tidak diinginkan
